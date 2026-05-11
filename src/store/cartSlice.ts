@@ -1,0 +1,58 @@
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { CartItem, Product } from "../types";
+
+// Load cart from sessionStorage when app starts
+const loadCartFromSession = (): CartItem[] => {
+  try {
+    const stored = sessionStorage.getItem("cart");
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+// Save cart to sessionStorage every time it changes
+const saveCartToSession = (cart: CartItem[]): void => {
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+};
+
+interface CartState {
+  items: CartItem[];
+}
+
+const initialState: CartState = {
+  items: loadCartFromSession(),
+};
+
+const cartSlice = createSlice({
+  name: "cart",
+  initialState,
+  reducers: {
+    // Add item to cart, or increase quantity if already exists
+    addToCart: (state, action: PayloadAction<Product>) => {
+      const existing = state.items.find((item) => item.id === action.payload.id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        state.items.push({ ...action.payload, quantity: 1 });
+      }
+      saveCartToSession(state.items);
+    },
+
+    // Remove item from cart by id
+    removeFromCart: (state, action: PayloadAction<number>) => {
+      state.items = state.items.filter((item) => item.id !== action.payload);
+      saveCartToSession(state.items);
+    },
+
+    // Clear entire cart (used at checkout)
+    clearCart: (state) => {
+      state.items = [];
+      sessionStorage.removeItem("cart");
+    },
+  },
+});
+
+export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export default cartSlice.reducer;
