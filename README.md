@@ -1,68 +1,51 @@
 # FakeStore E-Commerce App
 
-A full-featured e-commerce web application built with React, TypeScript, Redux Toolkit, and React Query.
+A React e-commerce application with full CI/CD pipeline using GitHub Actions and Vercel.
+
+## Live Demo
+
+[https://ecommerce-cicd.vercel.app](https://ecommerce-cicd.vercel.app)
 
 ## Tech Stack
 
-- React + TypeScript
-- Redux Toolkit (cart state management)
-- React Query (data fetching & caching)
-- React Router DOM (page navigation)
-- Axios (HTTP requests)
-- FakeStoreAPI (mock product data)
+- React 19 + TypeScript
+- Redux Toolkit (state management)
+- React Router DOM
+- Vite (build tool)
+- Vitest + React Testing Library (testing)
+- GitHub Actions (CI/CD)
+- Vercel (deployment)
 
 ## Features
 
-- Product listing with image, title, price, category, description, and rating
-- Image fallback for broken URLs (placeholder image)
-- Dynamic category filter dropdown (fetched from API)
-- Add products to cart from the product listing page
-- Shopping cart with item list, quantity, and price
-- Remove individual items from cart
-- Real-time total items and total price calculation
-- Session storage persistence (cart survives page refresh)
-- Checkout simulation with success feedback
+- Browse products from FakeStore API
+- Add/remove items from cart
+- Cart persists on page refresh (sessionStorage)
+- Checkout simulation
 
-## Getting Started
+## CI/CD Pipeline
 
-### Prerequisites
+Automated pipeline triggered on every push to main:
 
-- Node.js (v18 or higher)
-- npm
+1. **Build** — compiles the project
+2. **Test** — runs 7 unit and integration tests
+3. **Deploy** — deploys to Vercel only if all tests pass
 
-### Installation
+## Running Locally
 
-1. Clone the repository
-
-git clone https://github.com/YOUR_USERNAME/ecommerce-app.git
-
-2. Navigate into the project folder
-
-cd ecommerce-app
-
-3. Install dependencies
-
+```bash
 npm install
-
-4. Start the development server
-
 npm run dev
+```
 
-5. Open your browser at http://localhost:5173
+## Running Tests
 
-## Project Structure
+```bash
+npm test
+```
 
-src/
-├── api/           # API call functions (FakeStoreAPI)
-├── components/    # Reusable UI components
-├── pages/         # Page components (Home, Cart)
-├── store/         # Redux store and cart slice
-└── types/         # TypeScript type definitions
+## Tests Included
 
-## API Reference
-
-This project uses the FakeStoreAPI (https://fakestoreapi.com/)
-
-- GET /products — Fetch all products
-- GET /products/categories — Fetch all categories
-- GET /products/category/{category} — Fetch products by category
+- `Navbar.test.tsx` — renders brand name, displays cart count
+- `ProductCard.test.tsx` — renders product info, dispatches addToCart
+- `Cart.test.tsx` — integration test: adding product updates cart, checkout clears cart
