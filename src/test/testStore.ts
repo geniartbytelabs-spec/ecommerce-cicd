@@ -1,28 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import cartReducer from '../store/cartSlice'
 
-type CartItem = {
-  id: number
-  title: string
-  price: number
-  category: string
-  description: string
-  image: string
-  rating: { rate: number; count: number }
-  quantity: number
-}
+const baseStore = configureStore({ reducer: { cart: cartReducer } })
+type RootState = ReturnType<typeof baseStore.getState>
 
-type PreloadedCartState = {
-  cart?: {
-    items: CartItem[]
-  }
-}
-
-export function createTestStore(preloadedState: PreloadedCartState = {}) {
+export function createTestStore(preloadedState?: Partial<RootState>) {
   return configureStore({
-    reducer: {
-      cart: cartReducer,
-    },
-    preloadedState,
+    reducer: { cart: cartReducer },
+    preloadedState: preloadedState as RootState,
   })
 }
+
+export type TestStore = ReturnType<typeof createTestStore>
