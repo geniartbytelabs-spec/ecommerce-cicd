@@ -49,3 +49,6 @@ npm test
 - `Navbar.test.tsx` — renders brand name, displays cart count
 - `ProductCard.test.tsx` — renders product info, dispatches addToCart
 - `Cart.test.tsx` — integration test: adding product updates cart, checkout clears cart
+
+## Live Demo
+[https://ecommerce-cicd-bkddora2a-sooyeon-lee-s-projects.vercel.app](https://ecommerce-cicd-bkddora2a-sooyeon-lee-s-projects.vercel.app)
