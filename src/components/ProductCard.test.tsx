@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { Provider } from 'react-redux'
+import { MemoryRouter } from 'react-router-dom'
 import { describe, test, expect } from 'vitest'
 import ProductCard from './ProductCard'
 import { createTestStore } from '../test/testStore'
@@ -20,7 +21,9 @@ function renderProductCard() {
     store,
     ...render(
       <Provider store={store}>
-        <ProductCard product={mockProduct} />
+        <MemoryRouter>
+          <ProductCard product={mockProduct} />
+        </MemoryRouter>
       </Provider>
     ),
   }
